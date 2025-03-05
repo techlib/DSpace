@@ -10,10 +10,11 @@ ARG JDK_VERSION=17
 ARG DSPACE_VERSION=latest
 # The Docker registry to use for DSpace images. Defaults to "docker.io"
 # NOTE: non-DSpace images are hardcoded to use "docker.io" and are not impacted by this build argument
-ARG DOCKER_REGISTRY=docker.io
+# ARG DOCKER_REGISTRY=docker.io
 
 # Step 1 - Run Maven Build
-FROM ${DOCKER_REGISTRY}/dspace/dspace-dependencies:${DSPACE_VERSION} AS build
+#FROM ${DOCKER_REGISTRY}/dspace/dspace-dependencies:${DSPACE_VERSION} AS build
+FROM techlib/dspace-dependencies:${DSPACE_VERSION} AS build
 ARG TARGET_DIR=dspace-installer
 WORKDIR /app
 # The dspace-installer directory will be written to /install
@@ -35,7 +36,8 @@ RUN mvn --no-transfer-progress package ${MAVEN_FLAGS} && \
 RUN rm -rf /install/webapps/server/
 
 # Step 2 - Run Ant Deploy
-FROM docker.io/eclipse-temurin:${JDK_VERSION} AS ant_build
+#FROM docker.io/eclipse-temurin:${JDK_VERSION} AS ant_build
+FROM openjdk:${JDK_VERSION}-slim as ant_build
 ARG TARGET_DIR=dspace-installer
 # COPY the /install directory from 'build' container to /dspace-src in this container
 COPY --from=build /install /dspace-src
