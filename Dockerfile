@@ -36,8 +36,8 @@ RUN mvn --no-transfer-progress package ${MAVEN_FLAGS} && \
 RUN rm -rf /install/webapps/server/
 
 # Step 2 - Run Ant Deploy
-#FROM docker.io/eclipse-temurin:${JDK_VERSION} AS ant_build
-FROM openjdk:${JDK_VERSION}-slim as ant_build
+FROM docker.io/eclipse-temurin:${JDK_VERSION} AS ant_build
+#FROM openjdk:${JDK_VERSION}-slim as ant_build
 ARG TARGET_DIR=dspace-installer
 # COPY the /install directory from 'build' container to /dspace-src in this container
 COPY --from=build /install /dspace-src
