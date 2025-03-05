@@ -47,6 +47,10 @@ ENV ANT_VERSION=1.10.13
 ENV ANT_HOME=/tmp/ant-$ANT_VERSION
 ENV PATH=$ANT_HOME/bin:$PATH
 # Download and install 'ant'
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl tar \
+    && apt-get purge -y --auto-remove \
+    && rm -rf /var/lib/apt/lists/*
 RUN mkdir $ANT_HOME && \
     curl --silent --show-error --location --fail --retry 5 --output /tmp/apache-ant.tar.gz \
       https://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz && \
