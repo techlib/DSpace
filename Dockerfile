@@ -10,11 +10,11 @@ ARG JDK_VERSION=17
 ARG DSPACE_VERSION=latest
 # The Docker registry to use for DSpace images. Defaults to "docker.io"
 # NOTE: non-DSpace images are hardcoded to use "docker.io" and are not impacted by this build argument
-# ARG DOCKER_REGISTRY=docker.io
+ARG DOCKER_REGISTRY=ghcr.io
 
 # Step 1 - Run Maven Build
-#FROM ${DOCKER_REGISTRY}/dspace/dspace-dependencies:${DSPACE_VERSION} AS build
-FROM techlib/dspace-dependencies:${DSPACE_VERSION} AS build
+FROM ${DOCKER_REGISTRY}/techlib/dspace-dependencies:${DSPACE_VERSION} AS build
+#FROM techlib/dspace-dependencies:${DSPACE_VERSION} AS build
 ARG TARGET_DIR=dspace-installer
 WORKDIR /app
 # The dspace-installer directory will be written to /install
