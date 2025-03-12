@@ -5,10 +5,10 @@
 
 # This Dockerfile uses JDK11 by default, but has also been tested with JDK17.
 # To build with JDK17, use "--build-arg JDK_VERSION=17"
-ARG JDK_VERSION=11
+ARG JDK_VERSION=17
 
 # Step 1 - Run Maven Build
-FROM dspace/dspace-dependencies:dspace-7_x AS build
+FROM techlib/dspace-dependencies:dspace-7_x AS build
 ARG TARGET_DIR=dspace-installer
 WORKDIR /app
 # The dspace-installer directory will be written to /install
@@ -37,14 +37,16 @@ WORKDIR /dspace-src
 ENV ANT_VERSION 1.10.13
 ENV ANT_HOME /tmp/ant-$ANT_VERSION
 ENV PATH $ANT_HOME/bin:$PATH
-# Need wget to install ant
+# Download and install 'ant'
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends wget \
+    && apt-get install -y --no-install-recommends curl tar \
     && apt-get purge -y --auto-remove \
     && rm -rf /var/lib/apt/lists/*
-# Download and install 'ant'
 RUN mkdir $ANT_HOME && \
-    wget -qO- "https://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION-bin.tar.gz" | tar -zx --strip-components=1 -C $ANT_HOME
+    curl --silent --show-error --location --fail --retry 5 --output /tmp/apache-ant.tar.gz \
+      https://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz && \
+    tar -zx --strip-components=1 -f /tmp/apache-ant.tar.gz -C $ANT_HOME && \
+    rm /tmp/apache-ant.tar.gz
 # Run necessary 'ant' deploy scripts
 RUN ant init_installation update_configs update_code update_webapps
 
@@ -55,8 +57,17 @@ FROM tomcat:9-jdk${JDK_VERSION}
 ENV DSPACE_INSTALL=/dspace
 # Copy the /dspace directory from 'ant_build' container to /dspace in this container
 COPY --from=ant_build /dspace $DSPACE_INSTALL
-# Expose Tomcat port and AJP port
-EXPOSE 8080 8009
+WORKDIR $DSPACE_INSTALL
+# Need host command for "[dspace]/bin/make-handle-config"
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends host \
+    && apt-get purge -y --auto-remove \
+    && rm -rf /var/lib/apt/lists/*
+# Expose Tomcat port (8080) & Handle Server HTTP port (8000)
+EXPOSE 8080 8000
+#
+# Expose Tomcat port and AJP port - in DS7.X config but unused by NTK
+#EXPOSE 8080 8009
 # Give java extra memory (2GB)
 ENV JAVA_OPTS=-Xmx2000m
 

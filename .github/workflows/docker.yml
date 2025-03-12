@@ -22,12 +22,12 @@ jobs:
   # This image is used by all other DSpace build jobs.
   ####################################################
   dspace-dependencies:
-    # Ensure this job never runs on forked repos. It's only executed for 'dspace/dspace'
-    if: github.repository == 'dspace/dspace'
+    # Ensure this job never runs on forked repos. It's only executed for 'techlib/dspace'
+    if: github.repository == 'techlib/dspace'
     uses: ./.github/workflows/reusable-docker-build.yml
     with:
       build_id: dspace-dependencies
-      image_name: dspace/dspace-dependencies
+      image_name: techlib/dspace-dependencies
       dockerfile_path: ./Dockerfile.dependencies
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -37,14 +37,14 @@ jobs:
   # Build/Push the 'dspace/dspace' image
   #######################################
   dspace:
-    # Ensure this job never runs on forked repos. It's only executed for 'dspace/dspace'
-    if: github.repository == 'dspace/dspace'
+    # Ensure this job never runs on forked repos. It's only executed for 'techlib/dspace'
+    if: github.repository == 'techlib/dspace'
     # Must run after 'dspace-dependencies' job above
     needs: dspace-dependencies
     uses: ./.github/workflows/reusable-docker-build.yml
     with:
       build_id: dspace-prod
-      image_name: dspace/dspace
+      image_name: techlib/dspace
       dockerfile_path: ./Dockerfile
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -55,17 +55,17 @@ jobs:
       REDEPLOY_DEMO_URL: ${{ secrets.REDEPLOY_DEMO_URL }}
 
   #############################################################
-  # Build/Push the 'dspace/dspace' image ('-test' tag)
+  # Build/Push the 'techlib/dspace' image ('-test' tag)
   #############################################################
   dspace-test:
-    # Ensure this job never runs on forked repos. It's only executed for 'dspace/dspace'
-    if: github.repository == 'dspace/dspace'
+    # Ensure this job never runs on forked repos. It's only executed for 'techlib/dspace'
+    if: github.repository == 'techlib/dspace'
     # Must run after 'dspace-dependencies' job above
     needs: dspace-dependencies
     uses: ./.github/workflows/reusable-docker-build.yml
     with:
       build_id: dspace-test
-      image_name: dspace/dspace
+      image_name: techlib/dspace
       dockerfile_path: ./Dockerfile.test
       # As this is a test/development image, its tags are all suffixed with "-test". Otherwise, it uses the same
       # tagging logic as the primary 'dspace/dspace' image above.
@@ -75,28 +75,28 @@ jobs:
       DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
   ###########################################
-  # Build/Push the 'dspace/dspace-cli' image
+  # Build/Push the 'techlib/dspace-cli' image
   ###########################################
   dspace-cli:
-    # Ensure this job never runs on forked repos. It's only executed for 'dspace/dspace'
-    if: github.repository == 'dspace/dspace'
+    # Ensure this job never runs on forked repos. It's only executed for 'techlib/dspace'
+    if: github.repository == 'techlib/dspace'
     # Must run after 'dspace-dependencies' job above
     needs: dspace-dependencies
     uses: ./.github/workflows/reusable-docker-build.yml
     with:
       build_id: dspace-cli
-      image_name: dspace/dspace-cli
+      image_name: techlib/dspace-cli
       dockerfile_path: ./Dockerfile.cli
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
   ###########################################
-  # Build/Push the 'dspace/dspace-solr' image
+  # Build/Push the 'techlib/dspace-solr' image
   ###########################################
   dspace-solr:
-    # Ensure this job never runs on forked repos. It's only executed for 'dspace/dspace'
-    if: github.repository == 'dspace/dspace'
+    # Ensure this job never runs on forked repos. It's only executed for 'techlib/dspace'
+    if: github.repository == 'techlib/dspace'
     uses: ./.github/workflows/reusable-docker-build.yml
     with:
       build_id: dspace-solr
@@ -113,15 +113,15 @@ jobs:
       REDEPLOY_DEMO_URL: ${{ secrets.REDEPLOY_DEMO_SOLR_URL }}
 
   ###########################################################
-  # Build/Push the 'dspace/dspace-postgres-pgcrypto' image
+  # Build/Push the 'techlib/dspace-postgres-pgcrypto' image
   ###########################################################
   dspace-postgres-pgcrypto:
-    # Ensure this job never runs on forked repos. It's only executed for 'dspace/dspace'
-    if: github.repository == 'dspace/dspace'
+    # Ensure this job never runs on forked repos. It's only executed for 'techlib/dspace'
+    if: github.repository == 'techlib/dspace'
     uses: ./.github/workflows/reusable-docker-build.yml
     with:
       build_id: dspace-postgres-pgcrypto-prod
-      image_name: dspace/dspace-postgres-pgcrypto
+      image_name: techlib/dspace-postgres-pgcrypto
       # Must build out of subdirectory to have access to install script for pgcrypto.
       # NOTE: this context will build the image based on the Dockerfile in the specified directory
       dockerfile_context: ./dspace/src/main/docker/dspace-postgres-pgcrypto/
@@ -130,15 +130,15 @@ jobs:
       DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
   ########################################################################
-  # Build/Push the 'dspace/dspace-postgres-pgcrypto' image (-loadsql tag)
+  # Build/Push the 'techlib/dspace-postgres-pgcrypto' image (-loadsql tag)
   ########################################################################
   dspace-postgres-pgcrypto-loadsql:
-    # Ensure this job never runs on forked repos. It's only executed for 'dspace/dspace'
-    if: github.repository == 'dspace/dspace'
+    # Ensure this job never runs on forked repos. It's only executed for 'techlib/dspace'
+    if: github.repository == 'techlib/dspace'
     uses: ./.github/workflows/reusable-docker-build.yml
     with:
       build_id: dspace-postgres-pgcrypto-loadsql
-      image_name: dspace/dspace-postgres-pgcrypto
+      image_name: techlib/dspace-postgres-pgcrypto
       # Must build out of subdirectory to have access to install script for pgcrypto.
       # NOTE: this context will build the image based on the Dockerfile in the specified directory
       dockerfile_context: ./dspace/src/main/docker/dspace-postgres-pgcrypto-curl/
