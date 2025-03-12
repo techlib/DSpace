@@ -5,6 +5,7 @@ name: Docker images
 # Also run for PRs to ensure PR doesn't break Docker build process
 # NOTE: uses "reusable-docker-build.yml" to actually build each of the Docker images.
 on:
+  workflow_dispatch:
   push:
     branches:
       - main

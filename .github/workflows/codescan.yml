@@ -7,6 +7,7 @@ name: "Code Scanning"
 
 # Run this code scan for all pushes / PRs to main or maintenance branches. Also run once a week.
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
