@@ -114,7 +114,7 @@ jobs:
       # https://github.com/docker/login-action
       # NOTE: This login occurs for BOTH non-PRs or PRs. PRs *must* also login to access private images from GHCR
       # during the build process
-           - name: Login to ${{ env.DOCKER_BUILD_REGISTRY }}
+      - name: Login to ${{ env.DOCKER_BUILD_REGISTRY }}
         uses: docker/login-action@v3
         with:
           registry: ${{ env.DOCKER_BUILD_REGISTRY }}
