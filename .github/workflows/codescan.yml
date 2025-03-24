@@ -26,7 +26,7 @@ on:
 jobs:
   analyze:
     name: Analyze Code
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-selfhosted
     # Limit permissions of this GitHub action. Can only write to security-events
     permissions:
       actions: read

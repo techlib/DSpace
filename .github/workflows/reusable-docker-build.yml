@@ -75,7 +75,6 @@ env:
   # Registry used during building of Docker images. (All images are later copied to docker.io registry)
   # We use GitHub's Container Registry to avoid aggressive rate limits at DockerHub.
   DOCKER_BUILD_REGISTRY: ghcr.io
-  RUNNER: ubuntu-selfhosted
 
 jobs:
   docker-build:
@@ -88,7 +87,7 @@ jobs:
         isPr:
           - ${{ github.event_name == 'pull_request' }}
 
-    runs-on: ${{ env.RUNNER }}
+    runs-on: ubuntu-selfhosted
 
     steps:
       # This step converts the slashes in the "arch" matrix values above into dashes & saves to env.ARCH_NAME
@@ -200,7 +199,7 @@ jobs:
   # (e.g. AMD64 and ARM64 should be listed as options under the same tagged Docker image)
   docker-build_manifest:
     if: ${{ github.event_name != 'pull_request' }}
-    runs-on: ${{ env.RUNNER }}
+    runs-on: ubuntu-selfhosted 
     needs:
       - docker-build
     steps:
