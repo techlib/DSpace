@@ -101,7 +101,7 @@ jobs:
     uses: ./.github/workflows/reusable-docker-build.yml
     with:
       build_id: dspace-solr
-      image_name: dspace/dspace-solr
+      image_name: techlib/dspace-solr
       dockerfile_path: ./dspace/src/main/docker/dspace-solr/Dockerfile
       # Must pass solrconfigs to the Dockerfile so that it can find the required Solr config files
       dockerfile_additional_contexts: 'solrconfigs=./dspace/solr/'
