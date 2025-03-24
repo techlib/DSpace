@@ -31,8 +31,8 @@ jobs:
       image_name: techlib/dspace-dependencies
       dockerfile_path: ./Dockerfile.dependencies
     secrets:
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      DOCKER_USERNAME: ${{ github.repository_owner }}
+      DOCKER_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   #######################################
   # Build/Push the 'dspace/dspace' image
@@ -48,12 +48,12 @@ jobs:
       image_name: techlib/dspace
       dockerfile_path: ./Dockerfile
     secrets:
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-      # Enable redeploy of sandbox & demo if the branch for this image matches the deployment branch of
+      DOCKER_USERNAME: ${{ github.repository_owner }}
+      DOCKER_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+     # Enable redeploy of sandbox & demo if the branch for this image matches the deployment branch of
       # these sites as specified in reusable-docker-build.xml
-      REDEPLOY_SANDBOX_URL: ${{ secrets.REDEPLOY_SANDBOX_URL }}
-      REDEPLOY_DEMO_URL: ${{ secrets.REDEPLOY_DEMO_URL }}
+#      REDEPLOY_SANDBOX_URL: ${{ secrets.REDEPLOY_SANDBOX_URL }}
+#      REDEPLOY_DEMO_URL: ${{ secrets.REDEPLOY_DEMO_URL }}
 
   #############################################################
   # Build/Push the 'techlib/dspace' image ('-test' tag)
@@ -72,9 +72,9 @@ jobs:
       # tagging logic as the primary 'dspace/dspace' image above.
       tags_flavor: suffix=-test
     secrets:
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-
+      DOCKER_USERNAME: ${{ github.repository_owner }}
+      DOCKER_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+ 
   ###########################################
   # Build/Push the 'techlib/dspace-cli' image
   ###########################################
@@ -89,8 +89,8 @@ jobs:
       image_name: techlib/dspace-cli
       dockerfile_path: ./Dockerfile.cli
     secrets:
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      DOCKER_USERNAME: ${{ github.repository_owner }}
+      DOCKER_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   ###########################################
   # Build/Push the 'techlib/dspace-solr' image
@@ -106,12 +106,12 @@ jobs:
       # Must pass solrconfigs to the Dockerfile so that it can find the required Solr config files
       dockerfile_additional_contexts: 'solrconfigs=./dspace/solr/'
     secrets:
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      DOCKER_USERNAME: ${{ github.repository_owner }}
+      DOCKER_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # Enable redeploy of sandbox & demo SOLR instance whenever dspace-solr image changes for deployed branch.
       # These URLs MUST use different secrets than 'dspace/dspace' image build above as they are deployed separately.
-      REDEPLOY_SANDBOX_URL: ${{ secrets.REDEPLOY_SANDBOX_SOLR_URL }}
-      REDEPLOY_DEMO_URL: ${{ secrets.REDEPLOY_DEMO_SOLR_URL }}
+#      REDEPLOY_SANDBOX_URL: ${{ secrets.REDEPLOY_SANDBOX_SOLR_URL }}
+#      REDEPLOY_DEMO_URL: ${{ secrets.REDEPLOY_DEMO_SOLR_URL }}
 
   ###########################################################
   # Build/Push the 'techlib/dspace-postgres-pgcrypto' image
@@ -127,8 +127,8 @@ jobs:
       # NOTE: this context will build the image based on the Dockerfile in the specified directory
       dockerfile_context: ./dspace/src/main/docker/dspace-postgres-pgcrypto/
     secrets:
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      DOCKER_USERNAME: ${{ github.repository_owner }}
+      DOCKER_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   ########################################################################
   # Build/Push the 'techlib/dspace-postgres-pgcrypto' image (-loadsql tag)
@@ -147,5 +147,5 @@ jobs:
       # tagging logic as the primary 'dspace/dspace-postgres-pgcrypto' image above.
       tags_flavor: suffix=-loadsql
     secrets:
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      DOCKER_USERNAME: ${{ github.repository_owner }}
+      DOCKER_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
