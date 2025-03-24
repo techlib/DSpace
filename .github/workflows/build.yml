@@ -1,4 +1,4 @@
-u DSpace Continuous Integration/Build via GitHub Actions
+# DSpace Continuous Integration/Build via GitHub Actions
 # Concepts borrowed from
 # https://docs.github.com/en/free-pro-team@latest/actions/guides/building-and-testing-java-with-maven
 name: Build
