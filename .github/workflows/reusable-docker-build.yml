@@ -87,7 +87,7 @@ jobs:
         isPr:
           - ${{ github.event_name == 'pull_request' }}
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-selfhosted
 
     steps:
       # This step converts the slashes in the "arch" matrix values above into dashes & saves to env.ARCH_NAME
@@ -199,7 +199,7 @@ jobs:
   # (e.g. AMD64 and ARM64 should be listed as options under the same tagged Docker image)
   docker-build_manifest:
     if: ${{ github.event_name != 'pull_request' }}
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-selfhosted 
     needs:
       - docker-build
     steps:
