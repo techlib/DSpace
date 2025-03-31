@@ -16,6 +16,7 @@ on:
 
 permissions:
   contents: read  #  to fetch code (actions/checkout)
+  packages: write
 
 jobs:
   ####################################################
