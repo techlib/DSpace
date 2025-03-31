@@ -78,7 +78,9 @@ env:
 
 jobs:
   docker-build:
-
+    permissions:
+      contents: read
+      packages: write
     strategy:
       matrix:
         # Architectures / Platforms for which we will build Docker images
