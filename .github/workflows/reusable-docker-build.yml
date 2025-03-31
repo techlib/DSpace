@@ -152,9 +152,9 @@ jobs:
           # This decreases the number of images we need to fetch from DockerHub
           cache-from: type=gha,scope=${{ inputs.build_id }}
           cache-to: type=gha,scope=${{ inputs.build_id }},mode=max
-          permissions:
-            contents: read
-            packages: write
+        permissions:
+          contents: read
+          packages: write
 
       # Export the digest of Docker build locally (for non PRs only)
       - name: Export Docker build digest
